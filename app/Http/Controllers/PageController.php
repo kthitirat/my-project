@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actions\RegisterUserAction;
+use App\Http\Transformers\SubjectTransformer;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -12,7 +14,13 @@ class PageController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Index');
+        $subjects = Subject::with('professors')
+            ->whereNotNull('published_at')
+            ->paginate(30);
+        $subjectData = fractal($subjects, new SubjectTransformer())->toArray();
+        return Inertia::render('Index')->with([
+            'subjects' => $subjectData
+        ]);
     }
 
     public function dashboard()

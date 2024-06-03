@@ -5,20 +5,10 @@
                 <h1 class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-700">เอกสารประกอบการสอน</h1>
                 <h1 class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-600"> (PowerPoint)</h1>
             </div>
-           <div class="grid grid-cols-4 gap-6 px-16 mt-10">
-                <div class="w-full border border-slate-200 p-4 font-bold text-gray-700 hover:text-blue-600 hover:shadow-xl transition-all ease-in-out duration-500 cursor-pointer">
-                    <img class="w-full h-80 object-cover " src="https://picsum.photos/400/800" >
-                    <div class="mt-2">
-                        <p class="text-lg  text-center leading-5">รายวิชา GE64303 การออมและการลงทุน</p>
-                        <div class="text-sm text-center mt-4 text-gray-700 font-normal">
-                            <p>อาจารย์ ดร.มรุต กลัดเจริญ</p>
-                            <p>คณะวิทยาการจัดการ</p>
-                            <p>เผยแพร่วันที่ 1 มีนาคม 2567</p>
-                        </div>
-
-                    </div>
+           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 md:px-6 lg:px-10 xl:px-16 mt-10">
+                <div v-for="(subject,index) in subjectData" :key="subject.id">
+                    <TeachingMaterialCard :subject="subject" />
                 </div>
-
            </div>
         </div>
     </Layout>
@@ -26,13 +16,33 @@
 
 <script>
 import Layout from "@/Pages/Layout/Layout.vue";
-//import TeachingMaterialCard from "@/Pages/Components/TeachingMaterialCard.vue";
+import TeachingMaterialCard from "@/Pages/Components/TeachingMaterialCard.vue";
 //import axios from 'axios';
 import {Link} from "@inertiajs/vue3";
 import {router} from "@inertiajs/vue3";
 export default {
    name: "Index",
-    components: {Layout, Link},
+    components: {Layout,TeachingMaterialCard, Link},
+    props:{
+        subjects:{              //รับค่ามาจาก pagecontroller > function index()
+            type: Object,
+            required: true
+        }
+    },
+    data(){
+        return {
+            subjectData: null,
+            pagination: null
+        };
+
+    },
+    mounted(){
+        this.subjectData = this.subjects.data
+        this.pagination = this.subjects.meta.pagination;
+        console.log('..........');
+        console.log(this.pagination);
+        console.log('..........');
+    },
 
 }
 </script>
