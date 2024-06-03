@@ -10,6 +10,18 @@
                     <TeachingMaterialCard :subject="subject" />
                 </div>
            </div>
+           <div v-if="pagination !== null" class="px-4 md:px-6 lg:px-10 xl:px-16 mt-4 flex justify-end">
+                <div class="join">
+                    <Link v-for="(pagination,index) in pagination.links" :key="index" :href="pagination.url"
+                        :class="pagination.active ? 'btn-action':''"
+                        class="join-item btn">
+                        {{ pagination.label }}
+                    </Link>
+                    <!-- <button class="join-item btn btn-active">2</button>
+                    <button class="join-item btn">3</button>
+                    <button class="join-item btn">4</button> -->
+                </div>
+           </div>
         </div>
     </Layout>
 </template>
