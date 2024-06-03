@@ -24,4 +24,10 @@ class Subject extends Model
         'view' => 'integer',
     ];
 
+    //subject มีหลาย professors
+    public function professors()
+    {
+        return $this->belongsToMany(Professor::class);
+    }
+
 }

@@ -16,4 +16,10 @@ class Professor extends Model
         return $this->belongsTo(Department::class, 'department_id');
     }
 
+    //professor ก็สอนหลาย subject เหมือนกัน
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class);
+    }
+
 }

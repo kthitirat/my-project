@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Professor;
 use App\Models\Subject;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,5 +23,10 @@ class SubjectSeeder extends Seeder
             'published_at' => Carbon::today()
         ]);
         Subject::factory()->count(20)->create();
+
+        $subjects = Subject::all();
+        foreach ($subjects as $subject){
+            $subject->professors()->attach(Professor::inRandomOrder()->first()->id);  //attach เช่น subject สอนได้หลาย professor, และ professor สอนได้หลาย subject
+        }
     }
 }
