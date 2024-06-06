@@ -2,7 +2,7 @@
      <div
         class="w-full border border-slate-200 p-4 font-bold text-gray-700 hover:text-blue-600 hover:shadow-lg transition-all ease-in-out duration-500 cursor-pointer relative max-w-sm mx-auto"
         @click="visitSubject">
-        <img class="w-full h-100 object-cover" src="https://picsum.photos/400/800" >
+        <img class="w-full h-100 object-cover" src="https://www.aru.ac.th/aru-tm/images/S__27254823.jpg" >
         <div class="mt-2">
           <p class="text-lg text-center leading-5">รายวิชา {{ subject.code }} {{ subject.name_th }}</p>
             <div class="text-sm text-center mt-4 text-gray-700 font-normal flex flex-col">
