@@ -1,5 +1,7 @@
 <template>
-     <div class="w-full border border-slate-200 p-4 font-bold text-gray-700 hover:text-blue-600 hover:shadow-lg transition-all ease-in-out duration-500 cursor-pointer relative max-w-sm mx-auto " >
+     <div
+        class="w-full border border-slate-200 p-4 font-bold text-gray-700 hover:text-blue-600 hover:shadow-lg transition-all ease-in-out duration-500 cursor-pointer relative max-w-sm mx-auto"
+        @click="visitSubject">
         <img class="w-full h-100 object-cover" src="https://picsum.photos/400/800" >
         <div class="mt-2">
           <p class="text-lg text-center leading-5">รายวิชา {{ subject.code }} {{ subject.name_th }}</p>
@@ -25,8 +27,13 @@
 
 
 <script>
+import {router} from "@inertiajs/vue3";
+
 export default {
     name:"TeachingMaterialCard",
+    components:{
+
+    },
     props:{
         subject:{
             type: Object,
@@ -34,10 +41,15 @@ export default {
         }
     },
     mounted(){
-        console.log('........');
-        console.log(this.subject);
-        console.log('........');
-    }
+        // console.log('........');
+        // console.log(this.subject);
+        // console.log('........');
+    },
+    methods: {
+        visitSubject() {
+            router.visit(this.route('subjects.show',this.subject.id));
+        }
+    },
 }
 </script>
 

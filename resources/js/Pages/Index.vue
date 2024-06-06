@@ -10,12 +10,16 @@
                      <input v-model="search"  ref="searchInputRef" type="text" placeholder="ค้นหา" class="input input-bordered w-full max-w-xs" />
                 </label>
             </div>
-           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 md:px-6 lg:px-10 xl:px-16 mt-10">
+           <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 md:px-6 lg:px-10 xl:px-16 mt-10">
                 <div v-for="(subject,index) in subjectData" :key="subject.id">
                     <TeachingMaterialCard :subject="subject" />
                 </div>
            </div>
-           <div v-if="pagination !== null" class="px-4 md:px-6 lg:px-10 xl:px-16 mt-4 flex justify-end">
+           <div v-if="subjectData && subjectData.length === 0" class="flex w-full mt-20 justify-center">
+                <p>ไม่พบข้อมูล</p>
+           </div>
+           <div v-if="pagination && subjectData.length > 0 && pagination !== null" class="px-4 md:px-6 lg:px-10 xl:px-16 mt-4 flex justify-end">
                 <div class="join">
                     <Link v-for="(pagination,index) in pagination.links" :key="index"
                         :class="pagination.active ?'btn-active':''"
@@ -23,9 +27,7 @@
                         class="join-item btn">
                         {{ pagination.label }}
                     </Link>
-                    <!-- <button class="join-item btn btn-active">2</button>
-                    <button class="join-item btn">3</button>
-                    <button class="join-item btn">4</button> -->
+
                 </div>
            </div>
         </div>
