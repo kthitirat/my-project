@@ -5,6 +5,11 @@
                 <h1 class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-700">เอกสารประกอบการสอน</h1>
                 <h1 class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-600"> (PowerPoint)</h1>
             </div>
+            <div class="w-full px-4 md:px-6 lg:px-10 xl:px-16 mt-8">
+                <label class="form-control w-full max-w-xs">
+                     <input v-model="search"  ref="searchInputRef" type="text" placeholder="ค้นหา" class="input input-bordered w-full max-w-xs" />
+                </label>
+            </div>
            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 md:px-6 lg:px-10 xl:px-16 mt-10">
                 <div v-for="(subject,index) in subjectData" :key="subject.id">
                     <TeachingMaterialCard :subject="subject" />
@@ -12,8 +17,9 @@
            </div>
            <div v-if="pagination !== null" class="px-4 md:px-6 lg:px-10 xl:px-16 mt-4 flex justify-end">
                 <div class="join">
-                    <Link v-for="(pagination,index) in pagination.links" :key="index" :href="pagination.url"
-                        :class="pagination.active ? 'btn-action':''"
+                    <Link v-for="(pagination,index) in pagination.links" :key="index"
+                        :class="pagination.active ?'btn-active':''"
+                        :href="pagination.url ?? '#'"
                         class="join-item btn">
                         {{ pagination.label }}
                     </Link>
@@ -44,16 +50,39 @@ export default {
     data(){
         return {
             subjectData: null,
-            pagination: null
+            pagination: null,
+            //search: null,
+            search: new URLSearchParams(window.location.search).get('search') ?? null,
+            debouce: null,
         };
 
     },
     mounted(){
         this.subjectData = this.subjects.data
         this.pagination = this.subjects.meta.pagination;
-        console.log('..........');
-        console.log(this.pagination);
-        console.log('..........');
+        this.$refs.searchInputRef.focus();
+
+        // console.log('..........');
+        // console.log(this.pagination);
+        // console.log('..........');
+    },
+    methods: {
+        async submitSearch() {
+            const url = this.route('index', {
+                search: this.search
+            })
+            await router.visit(url, {
+                only: ['subjects'],
+            })
+        }
+    },
+    watch: {
+        search(){
+            clearTimeout(this.debouce)
+            this.debouce = setTimeout(() => {
+                this.submitSearch();
+            }, 500);
+        }
     },
 
 }
