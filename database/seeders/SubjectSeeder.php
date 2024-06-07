@@ -30,8 +30,15 @@ class SubjectSeeder extends Seeder
         $subjects = Subject::all();
         foreach ($subjects as $subject){
             $subject->professors()->attach(Professor::inRandomOrder()->first()->id);  //attach เช่น subject สอนได้หลาย professor, และ professor สอนได้หลาย subject
+
             $subject->addMedia(storage_path('seed/mock_subject_image.jpeg'))->preservingOriginal()   //จัดการรูปภาพ
             ->toMediaCollection(Subject::MEDIA_COLLECTION_IMAGE);
+
+            $subject->addMedia(storage_path('seed/mock_subject_pdf.pdf'))->preservingOriginal()   //จัดการ PDF
+            ->toMediaCollection(Subject::MEDIA_COLLECTION_DOCUMENTS);
+            $subject->addMedia(storage_path('seed/mock_subject_pdf.pdf'))->preservingOriginal()
+            ->toMediaCollection(Subject::MEDIA_COLLECTION_DOCUMENTS);
+
         }
     }
 }

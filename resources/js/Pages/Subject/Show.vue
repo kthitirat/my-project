@@ -77,9 +77,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>{{subject.code}} {{subject.name_th}}</td>
-                            <td>ไฟล์นำเสนอ .pdf: GE64303 การออมและการลงทุน</td>
+                        <tr v-for="(doc,index) in subject.documents.data">
+                            <td>
+                                <p class="text-base text-gray-700">
+                                    {{subject.code}} {{subject.name_th}}
+                                </p>
+                            </td>
+                            <td>ไฟล์นำเสนอ .pdf:
+                                <a :href="doc.url" class="text-blue-600 hover:text-blue-500 text-base" target="_blank">
+                                    {{doc.name}}
+                                </a>
+                             </td>
                         </tr>
                     </tbody>
                 </table>

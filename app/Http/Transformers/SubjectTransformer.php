@@ -10,7 +10,7 @@ use Phattarachai\ThaiDate\ThaiDate;
 
 class SubjectTransformer extends TransformerAbstract
 {
-    protected array $availableIncludes = ['image'];     //รูปภาพ
+    protected array $availableIncludes = ['image','documents'];     //รูปภาพ
 
     public function transform(Subject $subject): array
     {
@@ -38,4 +38,13 @@ class SubjectTransformer extends TransformerAbstract
         $images = $subject->getMedia(Subject::MEDIA_COLLECTION_IMAGE);
         return $this->collection($images, new ImageTransformer());
     }
+
+    //PDF
+    public function includeDocuments(Subject $subject)
+    {
+        $documents = $subject->getMedia(Subject::MEDIA_COLLECTION_DOCUMENTS);
+        return $this->collection($documents, new DocumentTransformer());
+    }
+
+
 }

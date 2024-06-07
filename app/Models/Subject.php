@@ -16,6 +16,7 @@ class Subject extends Model implements HasMedia
     use InteractsWithMedia;
 
     public const MEDIA_COLLECTION_IMAGE = 'image';
+    public const MEDIA_COLLECTION_DOCUMENTS = 'documents';
 
 
     protected $fillable = [
@@ -45,7 +46,7 @@ class Subject extends Model implements HasMedia
                     ->keepOriginalImageFormat();
             });
 
-        $this->addMediaCollection(self::MEDIA_COLLECTION_IMAGE);
+        $this->addMediaCollection(self::MEDIA_COLLECTION_DOCUMENTS);
     }
 
 

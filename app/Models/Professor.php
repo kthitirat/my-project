@@ -32,7 +32,7 @@ class Professor  extends Model implements HasMedia
                     ->keepOriginalImageFormat();
             });
 
-        $this->addMediaCollection(self::MEDIA_COLLECTION_IMAGE);
+
     }
 
     public function department()
