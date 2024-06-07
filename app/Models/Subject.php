@@ -27,6 +27,7 @@ class Subject extends Model implements HasMedia
         'unit',
         'published_at',
         'view',
+        'uuid'
     ];
 
     protected $casts = [                            //ป้องการการใส่ script เข้ามา

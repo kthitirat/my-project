@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            //$table->uuid('uuid')->index();   //เพิ่มทีหลัง
+            $table->uuid('uuid')->index();   //เพิ่มทีหลัง
             $table->text('name_th');
             $table->text('name_en');
             $table->string('code');
