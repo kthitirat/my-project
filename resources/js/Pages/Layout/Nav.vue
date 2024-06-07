@@ -10,11 +10,19 @@
                 <h1 class="text-4xl font-bold uppercase">ARU</h1>
                 <h1 class="text-4xl font-bold text-blue-600">Teaching Materials</h1>
             </Link>
-            <Link
-                class="text-blue-600 px-1 py-0.5 border-blue-600 border-l-0 border-r-0 border-t-0 border-2 font-bold hidden lg:block"
-                :href="route('index')">
-                Home
-            </Link>
+            <div class="flex gap-2">
+                <Link
+                    class="text-blue-600 px-1 py-0.5 border-blue-600 border-l-0 border-r-0 border-t-0 border-2 font-bold hidden lg:block"
+                    :href="route('index')">
+                    Home
+                </Link>
+                 <Link
+                    class="text-blue-600 px-1 py-0.5 border-blue-600 border-l-0 border-r-0 border-t-0 border-2 font-bold hidden lg:block ml-10"
+                    :href="route('login')">
+                    Login
+                </Link>
+            </div>
+
             <!-- เมนูมือถือ -->
             <div class="block lg:hidden">
                 <button @click="toggleMenu" class="text-blue-600">
