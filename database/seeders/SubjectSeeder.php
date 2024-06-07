@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Professor;
 use App\Models\Subject;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class SubjectSeeder extends Seeder
 {
@@ -31,7 +30,8 @@ class SubjectSeeder extends Seeder
         $subjects = Subject::all();
         foreach ($subjects as $subject){
             $subject->professors()->attach(Professor::inRandomOrder()->first()->id);  //attach เช่น subject สอนได้หลาย professor, และ professor สอนได้หลาย subject
-            //$subject->professors()->attach(Professor::inRandomOrder()->first()->id);
+            $subject->addMedia(storage_path('seed/mock_subject_image.jpeg'))->preservingOriginal()   //จัดการรูปภาพ
+            ->toMediaCollection(Subject::MEDIA_COLLECTION_IMAGE);
         }
     }
 }

@@ -6,10 +6,10 @@
         </div>
         <!-- แถบส่วนหัวที่มีเงา -->
         <div class="w-full shadow-md h-20 flex items-center justify-between px-4 lg:px-32 fixed top-10 left-0 right-0 z-50 bg-white">
-            <div class="flex items-center">
+            <Link class="flex items-center" :href="route('index')">
                 <h1 class="text-4xl font-bold uppercase">ARU</h1>
                 <h1 class="text-4xl font-bold text-blue-600">Teaching Materials</h1>
-            </div>
+            </Link>
             <Link
                 class="text-blue-600 px-1 py-0.5 border-blue-600 border-l-0 border-r-0 border-t-0 border-2 font-bold hidden lg:block"
                 :href="route('index')">
