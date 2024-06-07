@@ -9,9 +9,8 @@ use Illuminate\Database\Seeder;
 
 class ProfessorSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    protected array $availableIncludes = ['image'];     //รูปภาพ
+
     public function run(): void
     {
         Professor::factory()->create([
@@ -22,6 +21,13 @@ class ProfessorSeeder extends Seeder
             'department_id' => Department::first()->id ?? Department::factory()
         ]);
         Professor::factory()->count(10)->create();
+
+        $professors = Professor::all();
+        foreach ($professors as $professor){
+            $professor->addMedia(storage_path('seed/mock_professor_image.jpeg'))->preservingOriginal()   //จัดการรูปภาพ
+            ->toMediaCollection(Professor::MEDIA_COLLECTION_IMAGE);
+        }
+
     }
 
 

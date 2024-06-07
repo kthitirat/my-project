@@ -33,7 +33,7 @@ class Subject extends Model implements HasMedia
         'view' => 'integer',
     ];
 
-    //รูปภาพ
+    //รูปภาพหน้าปก
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection(self::MEDIA_COLLECTION_IMAGE)->singleFile()

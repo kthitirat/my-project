@@ -32,7 +32,7 @@ class SubjectController extends Controller
         $subject->fresh();
         //view
 
-        $subjectData = fractal($subject, new SubjectTransformer())->toArray();
+        $subjectData = fractal($subject, new SubjectTransformer())->includeImage()->toArray();
         return Inertia::render('Subject/Show')->with([
             'subject' => $subjectData
         ]);

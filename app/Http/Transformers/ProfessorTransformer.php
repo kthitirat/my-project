@@ -11,6 +11,8 @@ use Phattarachai\ThaiDate\ThaiDate;
 
 class ProfessorTransformer extends TransformerAbstract
 {
+
+    protected array $availableIncludes = ['image'];     //รูปภาพ
     //protected array $availableIncludes = ['documents'];
 
     public function transform(Professor $professor): array
@@ -29,6 +31,14 @@ class ProfessorTransformer extends TransformerAbstract
 
         ];
         return $data;
+    }
+
+
+    //รูปภาพ
+    public function includeImage(Professor $professor)
+    {
+        $images = $professor->getMedia(Subject::MEDIA_COLLECTION_IMAGE);
+        return $this->collection($images, new ImageTransformer());
     }
 
     // public function includeDocuments(Subject $subject)
