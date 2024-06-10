@@ -1,17 +1,198 @@
 <template>
     <Layout>
-        SubjectCreate
+        <form class="w-full grid grid-cols-1 md:grid-cols-3 gap-4" @submit.prevent="submit">
+
+            <button @click="$refs.imageInputRef.click" type="button" class="col-span-1 md:col-span-3 w-60 h-72 border border-dashed flex items-center justify-center">
+                <div v-if="displaySubjectImage == null">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <img v-if="displaySubjectImage!=null" :src="displaySubjectImage" class="w-full h-72 object-cover">
+            </button>
+            <input @change="handleSubjectImage" ref="imageInputRef" accept="image/*" type="file" class="hidden">
+
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">รหัสวิชา</span>
+                    </div>
+                    <input v-model="form.code" class="input input-bordered w-full" placeholder="รหัสวิชา" type="text" />
+                </label>
+            </div>
+
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">ชื่อวิชา(ภาษาไทย)</span>
+                    </div>
+                    <input v-model="form.name_th" class="input input-bordered w-full" placeholder="ชื่อวิชา(ภาษาไทย)" type="text" />
+                </label>
+            </div>
+
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">ชื่อวิชา(ภาษาอังกฤษ)</span>
+                    </div>
+                    <input v-model="form.name_en" class="input input-bordered w-full" placeholder="ชื่อวิชา(ภาษาอังกฤษ)" type="text" />
+                </label>
+            </div>
+
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">หน่วยกิต</span>
+                    </div>
+                    <input v-model="form.unit" class="input input-bordered w-full" placeholder="เช่น 3(3-0-6)" type="text" />
+                </label>
+            </div>
+
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">วันที่เผยแพร่</span>
+                    </div>
+                    <input v-model="form.published_at" class="input input-bordered w-full" type="date" />
+                </label>
+            </div>
+
+            <div class="col-span-1 md:col-span-3 w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">คำอธิบายรายวิชา</span>
+                    </div>
+                    <textarea v-model="form.description" class="textarea textarea-bordered textarea-md w-full" placeholder="คำอธิบายรายวิชา" rows="5"></textarea>
+                </label>
+            </div>
+
+            <div class="col-span-1 md:col-span-3 w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">เลือกอาจารย์</span>
+                    </div>
+                    <select class="select select-bordered w-full" @change="handSelectProfessor" v-model="currentSelectingProfessor">
+                        <option value="">เลือกอาจารย์</option>
+                        <option v-for="professor in professors" :key="professor.id" :value="professor">
+                            {{ professor.prefix }}  {{ professor.first_name }}  {{ professor.last_name }}
+                        </option>
+                    </select>
+                </label>
+                <div v-if="form.professors.length > 0" class="w-full flex gap-4 mt-4 flex-wrap">
+                    <div v-for="professor in form.professors" :key="professor.id" class="w-40 border flex flex-col pb-2 relative">
+                        <img v-if="professor.image" :src="professor.image.data[0].url" class="object-cover w-full h-40" >
+                        <div class="text-xs text-center leading-4 mt-2">
+                            <p> {{ professor.prefix }}  {{ professor.first_name }}  {{ professor.last_name }}</p>
+                            <p>{{ professor.major }}</p>
+                            <p>{{ professor.department.name }}</p>
+                        </div>
+                        <button type="button" class="absolute top-1 right-1 text-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-1 md:col-span-3 w-full flex gap-2">
+                <span class="label-text">เอกสาร</span>
+            </div>
+
+            <div class="col-span-1 md:col-span-3 w-full flex gap-2 flex-wrap">
+                <div class="w-40 border border-dashed flex flex-col pb-2 relative">
+                    <div class="h-24 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        </svg>
+                    </div>
+                    <div class="text-xs text-center leading-4 mt-2">
+                        <p>ชื่อ file kdkdkd.pdf</p>
+                    </div>
+                    <button type="button" class="absolute top-1 right-1 text-red-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </button>
+                </div>
+                <button class="w-40 border border-dashed flex flex-col pt-8 pb-8 justify-center items-center">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="col-span-1 md:col-span-3 w-full flex justify-end">
+                <button class="uppercase btn btn-primary">
+                    Submit
+                </button>
+            </div>
+
+        </form>
     </Layout>
 </template>
 
 <script>
 import Layout from "@/Pages/Dashboard/Layout/Layout.vue";
-//import {Inertia} from "@inertiajs/inertia";
-//import {Link, router, useForm} from "@inertiajs/vue3";
+import { router } from '@inertiajs/vue3';
+import {Inertia} from "@inertiajs/inertia";
 export default {
     name:"SubjectCreate",
     components:{
         Layout
+    },
+    props:{
+        professors:{
+            type: Array,
+            required: true
+        }
+    },
+    data(){
+        return{
+            form:{
+                image: null,
+                code: null,
+                name_th: null,
+                name_en: null,
+                unit: null,
+                published_at: null,
+                description: null,
+                professors: [],
+                documents: []
+            },
+            displaySubjectImage: null,
+            currentSelectingProfessor: ""
+        }
+    },
+    mounted() {
+
+    },
+    methods:{
+        handSelectProfessor(){
+            this.form.professors.push(this.currentSelectingProfessor);
+        },
+        handleSubjectImage(event){
+            const image = event.target.files[0];
+            this.form.image = image;
+            const blob = new Blob([image], {type: image.type});
+            const blobUrl = URL.createObjectURL(blob);
+            this.displaySubjectImage = blobUrl;
+        },
+        submit(){
+            const url = this.route('dashboard.subjects.store');
+            router.post(url, {
+                _method: 'post',
+                name_th: this.form.name_th,
+            })
+        },
+        watch:{
+            form: {
+                handler: function () {
+                },
+                deep: true
+            }
+        }
     },
 
 }
