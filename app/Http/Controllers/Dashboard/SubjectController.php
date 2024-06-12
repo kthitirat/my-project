@@ -16,8 +16,10 @@ class SubjectController extends Controller
 {
     public function index()
     {
+        $subjects = Subject::orderBy('published_at', 'desc')->paginate(20);
+        $subjectData = fractal($subjects, new SubjectTransformer())->includeImage()->toArray();
         return Inertia::render('Dashboard/Subject/Index')->with([
-
+            'subjects' => $subjectData
         ]);
     }
 
@@ -35,9 +37,7 @@ class SubjectController extends Controller
     {
         $newSubject = $action->execute(new Subject(), $request->validated());
         $newSubjectData = fractal($newSubject, new SubjectTransformer())->includeImage()->includeDocuments()->toArray();
-        dd(newSubjectData);
-
-        //return redirect()->route('dashboard.subjects.index');
+        return redirect()->route('dashboard.subjects.index');
 
     }
 

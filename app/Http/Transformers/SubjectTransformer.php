@@ -15,7 +15,7 @@ class SubjectTransformer extends TransformerAbstract
     public function transform(Subject $subject): array
     {
         $data = [
-            //'id' => $subject->id,
+            'raw_id' => $subject->id,
             'id' => $subject->uuid,
             'uuid' => $subject->uuid,
             'name_th' => $subject->name_th,
@@ -24,10 +24,11 @@ class SubjectTransformer extends TransformerAbstract
             'code' => $subject->code,
             'description' => $subject->description,
             'unit' => $subject->unit,
-            'published_at' => $subject->published_at ? Carbon::parse($subject->published_at)->thaidate('j M Y') : null,
+            'published_at' => $subject->published_at,
+            'display_published_at' => $subject->published_at ? Carbon::parse($subject->published_at)->thaidate('j M Y') : null,
             'view' => $subject->view,
 
-            // 'display_start_date' => Carbon::parse($announcement->start_date)->thaidate('j M Y'),
+            // 'display_start_date' => Carbon::parse($announcement->start_date)->thaidate('j M Y'),  หรือใช้ ('j F Y') แสดงเป็นเดือน เช่น มีนาคม
             // 'display_end_date' => Carbon::parse($announcement->end_date)->thaidate('j M Y'),
 
         ];
