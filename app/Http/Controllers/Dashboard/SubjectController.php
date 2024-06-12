@@ -41,6 +41,24 @@ class SubjectController extends Controller
 
     }
 
+    public function edit(Subject $subject)
+    {
+        $professors = Professor::all();
+        $professorData = fractal($professors, new ProfessorTransformer())->includeImage()->toArray()['data'];
+        $subjectData = fractal($subject, new SubjectTransformer())->includeImage()->includeDocuments()->toArray();
+        return Inertia::render('Dashboard/Subject/Edit')->with([
+            'professors' => $professorData,
+            'subject' =>  $subjectData
+
+        ]);
+    }
+
+    public function update(Subject $subject,CreateOrUpdateSubjectRequest $request, SaveSubjectAction $action)
+    {
+        $action->execute($subject, $request->validated());
+        return redirect()->route('dashboard.subjects.index')->with('success', 'subject updated.');
+    }
+
 
 
 }

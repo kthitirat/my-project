@@ -24,7 +24,7 @@ class SubjectTransformer extends TransformerAbstract
             'code' => $subject->code,
             'description' => $subject->description,
             'unit' => $subject->unit,
-            'published_at' => $subject->published_at,
+            'published_at' => Carbon::parse($subject->published_at)->format('Y-m-d'),
             'display_published_at' => $subject->published_at ? Carbon::parse($subject->published_at)->thaidate('j M Y') : null,
             'view' => $subject->view,
 

@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Professor;
 use App\Models\Subject;
 use DOMDocument;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 class SaveSubjectAction
@@ -34,20 +35,26 @@ class SaveSubjectAction
 
     private function handleAssignProfessors($professors):void
     {
+
         $professorCollection = collect($professors);
         $professorIds = $professorCollection->pluck('id')->toArray();
-        $this->subject->professors()->attach($professorIds);
+        $this->subject->professors()->sync($professorIds);
     }
 
     private function uploadSubjectImage($image):void
     {
+       if($image == null) {
+        return;
+       }
         $this->subject->addMedia($image)->toMediaCollection(Subject::MEDIA_COLLECTION_IMAGE);
     }
 
-    private function uploadSubjectDocuments($documents):void
+    private function uploadSubjectDocuments($documents): void
     {
         foreach ($documents as $document) {
-            $this->subject->addMedia($document)->toMediaCollection(Subject::MEDIA_COLLECTION_DOCUMENTS);
+            if ($document instanceof UploadedFile) {
+                $this->subject->addMedia($document)->toMediaCollection(Subject::MEDIA_COLLECTION_DOCUMENTS);
+            }
         }
     }
 
