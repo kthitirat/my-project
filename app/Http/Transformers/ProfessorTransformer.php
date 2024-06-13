@@ -23,8 +23,8 @@ class ProfessorTransformer extends TransformerAbstract
             'major' => $professor->major,
             'prefix' => $professor->prefix,
             'first_name' => $professor->first_name,
-            'last_name' => $professor->last_name
-
+            'last_name' => $professor->last_name,
+            'full_name' => $professor->prefix .' '. $professor->first_name .' '. $professor->last_name
 
             // 'display_start_date' => Carbon::parse($announcement->start_date)->thaidate('j M Y'),
             // 'display_end_date' => Carbon::parse($announcement->end_date)->thaidate('j M Y'),
