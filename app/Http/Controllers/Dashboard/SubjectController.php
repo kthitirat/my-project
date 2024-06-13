@@ -59,6 +59,17 @@ class SubjectController extends Controller
         return redirect()->route('dashboard.subjects.index')->with('success', 'subject updated.');
     }
 
+    public function  destroy($uuid)
+    {
+        $subject = Subject::where('uuid',$uuid)->first();
+        if(!$subject){
+            return redirect()->back()->with('error','no subject found.');
+        }
+        $subject->delete();
+        return redirect()->route('dashboard.subjects.index')->with('success', 'subject deleted');
+    }
+
+
 
 
 }

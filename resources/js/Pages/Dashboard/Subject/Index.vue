@@ -42,7 +42,7 @@
                         </div>
                     </td>
                     <td>
-                        <button  class="btn btn-error text-white btn-sm" type="button">
+                        <button @click="handleDeleteSubject(subject)" class="btn btn-error text-white btn-sm" type="button">
                             Delete
                         </button>
                     </td>
@@ -68,6 +68,7 @@
 import Layout from "@/Pages/Dashboard/Layout/Layout.vue";
 import {Inertia} from "@inertiajs/inertia";
 import {Link} from "@inertiajs/vue3";
+import { nextTick } from 'vue';
 export default {
     name:"SubjectIndex",
     components:{
@@ -91,6 +92,22 @@ export default {
         this.pagination = this.subjects.meta.pagination;
     },
     methods: {
+        handleDeleteSubject(subject){
+            this.$swal.fire({
+                title: "คุณต้องการที่จะลบวิชา " + subject.name_th + '?',
+                showDenyButton: true,
+                showCancelButton: true,
+                showConfirmButton: false,
+                denyButtonText: 'ลบ'
+            }).then((result) => {
+                if (result.isDenied) {
+                    Inertia.delete(this.route('dashboard.subjects.destroy', subject.id));
+                    nextTick(() => {
+                         window.location.reload();
+                    })
+                }
+            });
+        },
         selectPage(pag) {
             Inertia.get(pag.url);
         },
