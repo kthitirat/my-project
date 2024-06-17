@@ -59,7 +59,7 @@ class SubjectController extends Controller
         return redirect()->route('dashboard.subjects.index')->with('success', 'subject updated.');
     }
 
-    public function  destroy($uuid)
+    public function destroy($uuid)
     {
         $subject = Subject::where('uuid',$uuid)->first();
         if(!$subject){
