@@ -19,6 +19,7 @@ class ProfessorTransformer extends TransformerAbstract
     {
         $data = [
             'id' => $professor->id,
+            'department_id' => $professor->department_id,
             'department' => fractal($professor->department, new DepartmentTransformer())->toArray(),
             'major' => $professor->major,
             'prefix' => $professor->prefix,

@@ -21,7 +21,10 @@
                         </div>
                     </td>
                     <td>
-                        {{ professor.full_name }}
+                        <Link :href="route('dashboard.professors.edit',professor.id)" class="underline">
+                            {{ professor.full_name }}
+                        </Link>
+
                     </td>
                     <td>
                         <p>สาขาวิชา {{ professor.major }}</p>
