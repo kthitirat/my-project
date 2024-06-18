@@ -29,7 +29,7 @@
                         {{ subject.code }}
                     </td>
                     <td>
-                        <Link :href="route('dashboard.subjects.edit',subject.raw_id)">
+                        <Link :href="route('dashboard.subjects.edit',subject.raw_id)" class="underline">
                             <p> {{ subject.name_th }}</p>
                             <p> {{ subject.name_en }}</p>
                         </Link>

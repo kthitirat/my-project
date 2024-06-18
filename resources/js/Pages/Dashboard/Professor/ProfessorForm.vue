@@ -48,7 +48,7 @@
                 <div class="label">
                     <span class="label-text">สาขาวิชา</span>
                 </div>
-                <input v-model="form.major" class="input input-bordered w-full" placeholder="สกุล"
+                <input v-model="form.major" class="input input-bordered w-full" placeholder="สาขาวิชา"
                        type="text"/>
                 <p class="text-red-500 text-sm">{{ $page.props.errors.major }}</p>
             </label>
